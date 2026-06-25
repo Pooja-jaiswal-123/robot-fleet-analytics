@@ -30,11 +30,16 @@ services:
       CLICKHOUSE_USER: analytics_api
       CLICKHOUSE_PASSWORD: analytics_api_ro
       CLICKHOUSE_DATABASE: warehouse
-      # Optional -- enables the natural-language query panel. Leave blank to disable.
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+
+      # Groq Configuration
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      NL2SQL_MODEL: ${NL2SQL_MODEL:-llama-3.3-70b-versatile}
+
       CORS_ORIGINS: '["http://localhost:8080","http://localhost:5173"]'
+
     ports:
       - "8000:8000"
+
     depends_on:
       clickhouse:
         condition: service_healthy
@@ -44,9 +49,12 @@ services:
       context: ./frontend
       args:
         VITE_API_URL: http://localhost:8000
+
     container_name: nav-frontend
+
     ports:
       - "8080:80"
+
     depends_on:
       - backend
 

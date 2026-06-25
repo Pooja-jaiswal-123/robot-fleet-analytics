@@ -10,8 +10,8 @@ class Settings(BaseSettings):
 
     # Optional: only needed for the natural-language query panel.
     # Leave unset to disable that feature without breaking the rest of the app.
-    anthropic_api_key: str | None = None
-    nl2sql_model: str = "claude-sonnet-4-6"
+    groq_api_key: str | None = None
+    nl2sql_model: str = "llama-3.3-70b-versatile"
 
     cors_origins: list[str] = ["http://localhost:5173", "http://localhost:8080"]
 
