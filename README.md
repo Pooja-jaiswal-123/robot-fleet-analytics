@@ -2,7 +2,7 @@
 
 A full-stack analytics application over the 1,000,000-row robot navigation telemetry
 dataset: ClickHouse → FastAPI analytics service → React ops-dashboard, plus a
-natural-language query panel backed by Claude. See [`docs/FINDINGS.md`](docs/FINDINGS.md)
+natural-language query panel backed by Groq (Llama 3.3 70B). See [`docs/FINDINGS.md`](docs/FINDINGS.md)
 for the patterns this surfaced in the data.
 
 ## Architecture
@@ -18,7 +18,7 @@ for the patterns this surfaced in the data.
                                        │ the NL-query panel
                                        ▼
                                 ┌──────────────┐
-                                │ Claude API   │
+                                │  Groq API    │
                                 │ (NL → SQL)   │
                                 └──────────────┘
 ```
@@ -29,12 +29,12 @@ for the patterns this surfaced in the data.
   `SELECT`-only grants — the API can't write to the warehouse even if it tried.
 - **Backend (`backend/`)** — FastAPI service. Each dashboard panel maps to one
   endpoint and one hand-written, indexed-by-design SQL query in `app/analytics.py`.
-  `/api/nl-query` turns a plain-English question into SQL via the Claude API, then
+  `/api/nl-query` turns a plain-English question into SQL via the Groq API, then
   validates it's a single `SELECT` against the right table before running it.
 - **Frontend (`frontend/`)** — React + Vite + Tailwind + Recharts, styled as a fleet
   ops console (dark graphite, amber/cyan telemetry accents, monospace data). The
   floor-density panel is rendered as a hand-built SVG grid rather than a generic
-  chart-library heatmap, since the real signal here is the *absence* of fixed
+  chart-library heatmap, since the real signal here is the _absence_ of fixed
   stations.
 
 ## Run it
@@ -48,7 +48,7 @@ make up
 (equivalent to `docker compose up -d --build`). First boot creates the ClickHouse
 schema, loads the parquet file, and builds both app images — give it ~1–2 minutes.
 
-- Dashboard:  http://localhost:8080
+- Dashboard: http://localhost:8080
 - API + docs: http://localhost:8000/docs
 - ClickHouse: http://localhost:8123 (`intern` / `intern`, read-only, as before)
 
@@ -61,7 +61,7 @@ The rest of the dashboard works without this. To turn it on:
 
 ```bash
 cp .env.example .env
-# put your Anthropic API key in .env
+# put your Groq API key in .env
 make rebuild
 ```
 

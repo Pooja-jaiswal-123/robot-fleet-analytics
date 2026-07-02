@@ -51,18 +51,40 @@ export default function Dashboard() {
   }
 
   if (!kpis) {
-    return <div className="p-8 text-muted font-data text-sm">Loading fleet telemetry...</div>;
+    return (
+      <div className="p-8 text-muted font-data text-sm">
+        Loading fleet telemetry...
+      </div>
+    );
   }
 
   return (
     <div className="p-6 space-y-6">
       <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
         <KpiCard label="Spans" value={kpis.span_count?.toLocaleString()} />
-        <KpiCard label="Tasks" value={kpis.task_count?.toLocaleString()} accent="cyan" />
+        <KpiCard
+          label="Tasks"
+          value={kpis.task_count?.toLocaleString()}
+          accent="cyan"
+        />
         <KpiCard label="Active robots" value={kpis.robot_count} />
-        <KpiCard label="Avg speed" value={kpis.avg_speed_mps} unit="m/s" accent="cyan" />
-        <KpiCard label="Distance covered" value={kpis.total_distance_km} unit="km" />
-        <KpiCard label="Avg span time" value={kpis.avg_span_duration_s} unit="s" accent="cyan" />
+        <KpiCard
+          label="Avg speed"
+          value={kpis.avg_speed_mps}
+          unit="m/s"
+          accent="cyan"
+        />
+        <KpiCard
+          label="Distance covered"
+          value={kpis.total_distance_km}
+          unit="km"
+        />
+        <KpiCard
+          label="Avg span time"
+          value={kpis.avg_span_duration_s}
+          unit="s"
+          accent="cyan"
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 h-80">
@@ -72,7 +94,7 @@ export default function Dashboard() {
         <AnomalyPanel anomalies={anomalies} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-96">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-96 min-h-0 overflow-hidden">
         <FleetHeatmap data={heat} gridSize={10} />
         <RobotUtilizationChart data={robots} />
       </div>

@@ -18,19 +18,26 @@ export default function SpeedHistogram({ data, violations }) {
         </h3>
         {violations && (
           <span className="text-xs text-danger font-data">
-            {violations.over_spec_pct}% over spec &middot; {violations.under_spec_pct}% under spec
+            {violations.over_spec_pct}% over spec &middot;{" "}
+            {violations.under_spec_pct}% under spec
           </span>
         )}
       </div>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
+        <BarChart
+          data={data}
+          margin={{ top: 5, right: 10, left: -10, bottom: 0 }}
+        >
           <XAxis
             dataKey="bucket_start"
             stroke="#8B959E"
             tick={{ fontSize: 11, fontFamily: "IBM Plex Mono" }}
             tickFormatter={(v) => v.toFixed(1)}
           />
-          <YAxis stroke="#8B959E" tick={{ fontSize: 11, fontFamily: "IBM Plex Mono" }} />
+          <YAxis
+            stroke="#8B959E"
+            tick={{ fontSize: 11, fontFamily: "IBM Plex Mono" }}
+          />
           <ReferenceArea x1={0.5} x2={1.5} fill="#4FD1C5" fillOpacity={0.08} />
           <Tooltip
             contentStyle={{
@@ -45,7 +52,11 @@ export default function SpeedHistogram({ data, violations }) {
             {data.map((d, i) => (
               <Cell
                 key={i}
-                fill={d.bucket_start < 0.5 || d.bucket_start >= 1.5 ? "#FF5470" : "#FF8A3D"}
+                fill={
+                  d.bucket_start < 0.5 || d.bucket_start >= 1.5
+                    ? "#FF5470"
+                    : "#FF8A3D"
+                }
               />
             ))}
           </Bar>

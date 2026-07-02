@@ -75,4 +75,17 @@ def nl_query(req: NlQueryRequest):
     try:
         return nl2sql_ask(req.question)
     except NlQueryError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        # ✅ Error ko HTTP error mat banao — friendly response return karo
+        return {
+            "question": req.question,
+            "answer": str(e),
+            "sql": None,
+            "rows": [],
+        }
+    except Exception as e:
+        return {
+            "question": req.question,
+            "answer": "Something went wrong. Try asking about robots, speed, distance, or tasks!",
+            "sql": None,
+            "rows": [],
+        }
